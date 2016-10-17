@@ -51,17 +51,19 @@ try:
     message = connectionSocket.recv(MAX_INPUT).decode()
 
     #While there are more than 1 numbers to process
-    while(len(message) >= 1):
+    while(len(message) > 1):
         # Create Running sum
-        sum = message[0]
+        sum = 0
         # Add each number to the sum
-        for num in range(1, len(message)):
+        for num in range(0, len(message)):
             sum += int(message[num])
 
         #convert message to a string
         message = str(sum)
         # Send out the sum as a message
         sendMessage(connectionSocket, message)
+
+    sendMessage(connectionSocket, message)
 
 # If there is a non integer provided, send error message
 except:
