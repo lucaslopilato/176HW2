@@ -52,8 +52,7 @@ while True:
   # Check if the message is an error message or is 1 or less
   # Exit if true
   if(len(modifiedMessage) <= 1 or modifiedMessage == 'Sorry, cannot compute!'):
-    clientSocket.close()
-    exit()
+    break
 
 # Close socket
 clientSocket.close()
