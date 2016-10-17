@@ -41,10 +41,13 @@ clientSocket.sendto(message.encode(), (serverName, serverPort))
 
 # Returning packets saved to modifiedMessage and
 # serverAddress is saved into serverAddress
-modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
-while(len(modifiedMessage.decode()) != 1):
-    # Print output
-    print(modifiedMessage.decode())
+while True:
+  modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
+  modifiedMessage = modifiedMessage.decode()
+  print(modifiedMessage)
+
+  if(len(modifiedMessage) <= 1 or modifiedMessage == 'Sorry, cannot compute!'):
+    exit()
 
 # Close socket
 clientSocket.close()
