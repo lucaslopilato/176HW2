@@ -42,8 +42,10 @@ serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 serverSocket.bind(('', serverPort))
 
 try:
+    # Retrieve message from client and decode it
     message, clientAddress = serverSocket.recvfrom(2048)
     message = message.decode()
+    #While there are more than 1 numbers to process
     while(len(message) > 1):
         # Create Running sum
         sum = 0
@@ -51,10 +53,12 @@ try:
         for num in range(0, len(message)):
             sum += int(message[num])
 
+        #convert message to a string
         message = str(sum)
         # Send out the sum as a message
         sendMessage(serverSocket, clientAddress, message)
 
+# If there is a non integer provided, send error message
 except:
     sendMessage(serverSocket, clientAddress, 'Sorry, cannot compute!')
     exit()
