@@ -33,7 +33,7 @@ except:
 clientSocket = socket(AF_INET, SOCK_DGRAM)
 
 # Asks user for input
-message = input('Enter String:')
+message = input('Enter String: ')
 
 # message.encode() changes from string to byteType
 # Sends encoded message to destination (serverName, serverPort)
@@ -47,6 +47,7 @@ while True:
   print(modifiedMessage)
 
   if(len(modifiedMessage) <= 1 or modifiedMessage == 'Sorry, cannot compute!'):
+    clientSocket.close()
     exit()
 
 # Close socket

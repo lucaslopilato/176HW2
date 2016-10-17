@@ -8,7 +8,6 @@ import sys
 # function to send a message back from a given socket
 # destination address and message
 def sendMessage(sock, clientAddress, msg):
-    print('Sending message: ', msg)
     sock.sendto(msg.encode(), clientAddress)
 
 
@@ -45,16 +44,16 @@ serverSocket.bind(('', serverPort))
 try:
     message, clientAddress = serverSocket.recvfrom(2048)
     message = message.decode()
-    while(len(message) != 1):
+    while(len(message) > 1):
         # Create Running sum
         sum = 0
         # Add each number to the sum
         for num in range(0, len(message)):
             sum += int(message[num])
 
-        message = sum
+        message = str(sum)
         # Send out the sum as a message
-        sendMessage(serverSocket, clientAddress, str(message))
+        sendMessage(serverSocket, clientAddress, message)
 
 except:
     sendMessage(serverSocket, clientAddress, 'Sorry, cannot compute!')
