@@ -1,4 +1,4 @@
-# client_python_udp.py
+# client_python_tcp.py
 # Lucas Lopilato
 # CS176A HW2
 
@@ -28,22 +28,24 @@ except:
 # Approach taken from Computer Networking (Kurose, Ross)
 # Creates client's socket
 # AF_INET specifies IPv4
-# SOCK_DGRAM specifies UDP socket being used
+# SOCK_STREAM specifies TCP socket being used
 # OS automatically configures port number for client socket
-clientSocket = socket(AF_INET, SOCK_DGRAM)
+clientSocket = socket(AF_INET, SOCK_STREAM)
+#Initiate handshake
+clientSocket.connect((serverName, serverPort))
 
 # Asks user for input
 message = input('Enter String: ')
-
-# Sends encoded message to destination (serverName, serverPort)
-clientSocket.sendto(message.encode(), (serverName, serverPort))
+# Sends encoded message to destination
+clientSocket.send(message.encode())
 
 # Returning packets saved to modifiedMessage and
 # serverAddress is saved into serverAddress
 while True:
   # Listens to the stream and saves message into modifiedMessage
-  modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
-  # decode message and print
+  bufsize = clientSocket.recv(4)
+  bufsize = bufsize.decode()
+  modifiedMessage = clientSocket.recv(int(bufsize))
   modifiedMessage = modifiedMessage.decode()
   print(modifiedMessage)
 

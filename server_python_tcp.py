@@ -9,13 +9,12 @@ import sys
 # destination address and message
 def sendMessage(sock, msg):
     outgoing = msg.encode()
-    size = '/'+str(sys.getsizeof(outgoing))+'/'
-    sock.sendto(size.encode())
-    sock.sendto(outgoing)
+    sock.send(str(len(msg)).zfill(4).encode())
+    sock.send(outgoing)
 
 
 # Maximum character length
-MAX_INPUT = 128 * sys.getsizeof(str())
+MAX_INPUT = 128
 
 # Define port variable (uninitialized)
 serverPort = -1
@@ -43,11 +42,13 @@ serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 
 # Assigns port number to TCP socket
 serverSocket.bind(('', serverPort))
+serverSocket.listen(1)
 # Retrieve connection information
 connectionSocket, addr = serverSocket.accept()
+
 try:
     # Retrieve message from client and decode it
-    message = serverSocket.recvfrom(MAX_INPUT).decode()
+    message = connectionSocket.recv(MAX_INPUT).decode()
 
     #While there are more than 1 numbers to process
     while(len(message) > 1):
@@ -65,4 +66,7 @@ try:
 # If there is a non integer provided, send error message
 except:
     sendMessage(connectionSocket, 'Sorry, cannot compute!')
+    connectionSocket.close()
     exit()
+
+connectionSocket.close()
