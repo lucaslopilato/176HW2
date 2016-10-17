@@ -41,14 +41,14 @@ serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 serverSocket.bind(('', serverPort))
 
 try:
-  int(message), clientAddress = serverSocket.recvfrom(2048)
+  message, clientAddress = serverSocket.recvfrom(2048)
 
   while(len(message) != 1):
     #Create Running sum
-    sum = message[0]
+    sum = int(message[0])
     #Add each number to the sum
     for num in range (1,len(message)):
-      sum += num
+      sum += int(num)
 
     message = sum
     #Send out the sum as a message
