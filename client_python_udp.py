@@ -1,7 +1,9 @@
 # client_python_udp.py
 # Lucas Lopilato
 # CS176A HW2
-
+# Socket connection taken from Computer Networking (Kurose, Ross)
+# code includes opening a connection, encoding a message,
+# and listening on a port.
 from socket import *
 import sys
 

@@ -1,6 +1,8 @@
 # Lucas Lopilato
 # CS176A HW2 Programming Assignment
-# Server
+# Socket connection taken from Computer Networking (Kurose, Ross)
+# code includes opening a connection, encoding a message,
+# and listening on a port.
 from socket import *
 import sys
 
@@ -12,6 +14,7 @@ def sendMessage(sock, msg):
     sock.send(str(len(msg)).zfill(4).encode())
     sock.send(outgoing)
 
+# Approach taken from Computer Networking (Kurose, Ross)
 
 # Maximum character length
 MAX_INPUT = 128
@@ -63,7 +66,7 @@ try:
         # Send out the sum as a message
         sendMessage(connectionSocket, message)
 
-    sendMessage(connectionSocket, message)
+    sendMessage(connectionSocket, str(int(message)))
 
 # If there is a non integer provided, send error message
 except:

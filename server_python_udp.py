@@ -1,6 +1,9 @@
 # Lucas Lopilato
 # CS176A HW2 Programming Assignment
 # Server
+# Socket connection taken from Computer Networking (Kurose, Ross)
+# code includes opening a connection, encoding a message,
+# and listening on a port.
 from socket import *
 import sys
 
@@ -12,7 +15,7 @@ def sendMessage(sock, clientAddress, msg):
 
 
 # Maximum character length
-MAX_INPUT = 128 * sys.getsizeof(str())
+MAX_INPUT = 128
 
 # Define port variable (uninitialized)
 serverPort = -1
@@ -43,7 +46,7 @@ serverSocket.bind(('', serverPort))
 
 try:
     # Retrieve message from client and decode it
-    message, clientAddress = serverSocket.recvfrom(2048)
+    message, clientAddress = serverSocket.recvfrom(MAX_INPUT)
     message = message.decode()
     #While there are more than 1 numbers to process
     while(len(message) > 1):
@@ -57,8 +60,13 @@ try:
         message = str(sum)
         # Send out the sum as a message
         sendMessage(serverSocket, clientAddress, message)
+    message = str(int(message))
+    sendMessage(serverSocket,clientAddress,message)
 
 # If there is a non integer provided, send error message
 except:
     sendMessage(serverSocket, clientAddress, 'Sorry, cannot compute!')
+    serverSocket.close()
     exit()
+
+serverSocket.close()
